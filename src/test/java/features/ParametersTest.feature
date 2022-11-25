@@ -2,7 +2,8 @@ Feature: parameter examples
 
   Background:
     * def baseUrl = 'https://api.exchangeratesapi.io'
-    * def spartanUrl = 'http://44.202.119.26:8000'
+    * def spartanUrl = 'http://44.195.19.167:8000'
+    * def hrUrl = 'http://44.195.19.167:1000/ords/hr'
 
   Scenario: path parameters
     Given url baseUrl
@@ -46,6 +47,22 @@ Feature: parameter examples
     # verify each content has gender = 'Female'
     And match each response.content contains {'gender':'Female'}
     And match each response.content contains[*].gender = 'Female'
+    And match response.content[0].name == 'Jimmy'
+
+    #verify each content phone is number
+    And match each response.content[*].phone == '#number'
+
+    Scenario: hr regions examples
+      Given url hrUrl
+      And path 'regions'
+      When method get
+      Then status 200
+      #And print response
+      And match response.limit == 25
+      And match each response.items[*].regionsId == '#present'
+
+
+
 
 
 
